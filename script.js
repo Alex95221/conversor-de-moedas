@@ -39,7 +39,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     console.log(`Convertendo para: ${currencySelect.value} | Valor convertido: ${convertedValue}`);
+
+
+      
+
   }
 
+   function changeCurrency() {
+    const currencyName = document.getElementById("currency-name");
+    const currencyImage = document.querySelector(".currency-img");
+    if(currencySelect.value === "dolar") {
+      currencyName.innerHTML = "Dólar americano";
+     currencyImage.src = "./assets/estados-unidos (1) 1.png";
+
+    }
+    if(currencySelect.value === "euro") {
+      currencyName.innerHTML = "Euro";
+      currencyImage.src = "./assets/euro.png";
+    } 
+
+     
+    // Removido código incompleto para evitar erro de expressão esperada.
+
+    convertValues();
+
+
+   }
+
+
+
+  currencySelect.addEventListener("change",  changeCurrency);
   convertButton.addEventListener("click", convertValues);
 });
