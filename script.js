@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const dolarToday = 5.20;
     const euroToday = 6.20;
+    const libraToday = 7.00;
 
     if (isNaN(inputCurrencyValue)) {
       alert("Digite um valor numérico válido.");
@@ -37,6 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
       style: "currency",
       currency: "BRL"
     });
+    if (currencySelect.value === "libra") {
+      convertedValue = inputCurrencyValue / libraToday;
+      currencyValueConverted.innerHTML = convertedValue.toLocaleString("en-UK", {
+        style: "currency",
+        currency: "GBP"
+      });
+    }
 
     console.log(`Convertendo para: ${currencySelect.value} | Valor convertido: ${convertedValue}`);
 
@@ -57,6 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
       currencyName.innerHTML = "Euro";
       currencyImage.src = "./assets/euro.png";
     } 
+    if(currencySelect.value  === "Libra") {
+      currencyName.innerHTML = "Libra Esterlina"
+      currencyImage.src = "./assets/libra.png"
+    }
+
 
      
     // Removido código incompleto para evitar erro de expressão esperada.
