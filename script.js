@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dolarToday = 5.20;
     const euroToday = 6.20;
     const libraToday = 7.00;
+    const bitcoinToday = 200000; // Exemplo de valor do Bitcoin
 
     if (isNaN(inputCurrencyValue)) {
       alert("Digite um valor numérico válido.");
@@ -45,6 +46,13 @@ document.addEventListener("DOMContentLoaded", () => {
         currency: "GBP"
       });
     }
+    if (currencySelect.value === "bitcoin") {
+      convertedValue = inputCurrencyValue / bitcoinToday;
+      currencyValueConverted.innerHTML = convertedValue.toLocaleString("en-US", {
+        style: "currency",
+        currency: "BTC"
+      });
+    }
 
     console.log(`Convertendo para: ${currencySelect.value} | Valor convertido: ${convertedValue}`);
 
@@ -68,6 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if(currencySelect.value  === "Libra") {
       currencyName.innerHTML = "Libra Esterlina"
       currencyImage.src = "./assets/libra.png"
+    }
+    if(currencySelect.value === "bitcoin") {
+      currencyName.innerHTML = "Bitcoin"
+      currencyImage.src = "./assets/bitcoin 1.png"
+      
     }
 
 
