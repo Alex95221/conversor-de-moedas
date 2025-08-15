@@ -6,33 +6,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="./style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  />
   <script src="./script.js" defer></script>
   <title>Dev Club - Convert Money</title>
 </head>
 <body>
-  <img class="logo" src="./assets/logo.gif" alt="logo-devclub-convert-money" />
-
+  <img
+    class="logo"
+    src="./assets/logo.gif"
+    alt="logo-devclub-convert-money"
+  />
   <main>
     <label>
       Converter <b>de</b>
-      <select class="currency-from">
-        <option value="BRL">R$ Real Brasileiro</option>
-        <option value="USD">US$ Dólar Americano</option>
-        <option value="EUR">€ Euro</option>
-        <option value="GBP">£ Libra Esterlina</option>
-        <option value="BTC">₿ Bitcoin</option>
+      <select>
+        <option>R$ Real Brasileiro</option>
+        
       </select>
     </label>
 
     <label>
-      Converter <b>para</b>
-      <select class="currency-to">
-        <option value="USD">US$ Dólar Americano</option>
-        <option value="BRL">R$ Real Brasileiro</option>
-        <option value="EUR">€ Euro</option>
+      Converter <b>Para</b>
+      <select class="currency-select">
+        <option value="dolar">US$ Dólar Americano</option>
+        <option value="euro">€ Euro</option>
         <option value="GBP">£ Libra Esterlina</option>
-        <option value="BTC">₿ Bitcoin</option>
+        <option value="bitcoin">₿ Bitcoin</option>
       </select>
     </label>
 
@@ -45,16 +47,23 @@
 
     <section>
       <div>
-        <img class="currency-img-from" src="./assets/brasil 2.png" alt="logo-moeda-a-converter" />
-        <p class="currency currency-name-from">Real Brasileiro</p>
+        <img
+          class="currency-box"
+          src="./assets/brasil 2.png"
+          alt="logo-moeda-a-converter"
+        />
+        <p class="currency">Real</p>
         <p class="currency-value-to-convert">R$ 0,00</p>
       </div>
 
       <img class="arrow-img" src="./assets/seta.png" alt="seta" />
 
-      <div>
-        <img class="currency-img-to" src="./assets/estados-unidos (1) 1.png" alt="logo-moeda-convertida" />
-        <p class="currency currency-name-to">Dólar Americano</p>
+      <div class="currency-box">
+        <img class="currency-img"
+          src="./assets/estados-unidos (1) 1.png"
+          alt="logo-moeda-convertida"
+        />
+        <p class="currency" id="currency-name">Dólar americano</p>
         <p class="currency-value">US$ 0.00</p>
       </div>
     </section>
