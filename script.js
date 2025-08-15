@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
       style: "currency",
       currency: "BRL"
     });
-    if (currencySelect.value === "libra") {
+    if (currencySelect.value === "GBP") {
       convertedValue = inputCurrencyValue / libraToday;
       currencyValueConverted.innerHTML = convertedValue.toLocaleString("en-UK", {
         style: "currency",
@@ -73,14 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
       currencyName.innerHTML = "Euro";
       currencyImage.src = "./assets/euro.png";
     } 
-    if(currencySelect.value  === "Libra") {
+    if(currencySelect.value  === "GBP") {
       currencyName.innerHTML = "Libra Esterlina"
       currencyImage.src = "./assets/libra.png"
+
     }
+
     if(currencySelect.value === "bitcoin") {
       currencyName.innerHTML = "Bitcoin"
       currencyImage.src = "./assets/bitcoin 1.png"
-      
+
     }
 
 
