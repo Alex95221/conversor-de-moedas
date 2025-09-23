@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const fromImg = document.querySelector(".from-img");
   const toImg = document.querySelector(".to-img");
+  const convertBtn = document.querySelector(".convert-btn"); // botão
 
   // Caminhos das imagens
   const currencyImages = {
@@ -78,8 +79,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     toImg.src = currencyImages[toCurrency];
   }
 
-  // Eventos
-  inputCurrency.addEventListener("input", convertCurrency);
-  fromSelect.addEventListener("change", convertCurrency);
-  toSelect.addEventListener("change", convertCurrency);
+  // Agora só converte quando clicar no botão
+  convertBtn.addEventListener("click", convertCurrency);
 });
