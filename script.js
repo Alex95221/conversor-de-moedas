@@ -1,30 +1,16 @@
-// Aguarda o carregamento completo do HTML antes de executar o código
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  const inputCurrency = document.querySelector(".input-currency");
+  const fromSelect = document.querySelector(".from-select");
+  const toSelect = document.querySelector(".currency-select");
 
-  // Seletores dos elementos principais
-  const inputCurrency = document.querySelector(".input-currency"); // Campo para digitar o valor
-  const fromSelect = document.querySelector(".from-select");       // Select da moeda de origem
-  const toSelect = document.querySelector(".currency-select");     // Select da moeda de destino
+  const currencyValueToConvert = document.querySelector(".currency-value-to-convert");
+  const currencyValueConverted = document.querySelector(".currency-value");
+  const currencyName = document.getElementById("currency-name");
 
-  // Seletores dos elementos de exibição
-  const currencyValueToConvert = document.querySelector(".currency-value-to-convert"); // Valor original digitado
-  const currencyValueConverted = document.querySelector(".currency-value");            // Valor convertido
-  const currencyName = document.getElementById("currency-name");                       // Nome da moeda de destino
+  const fromImg = document.querySelector(".from-img");
+  const toImg = document.querySelector(".to-img");
 
-  // Seletores das imagens das moedas
-  const fromImg = document.querySelector(".from-img"); // Imagem da moeda de origem
-  const toImg = document.querySelector(".to-img");     // Imagem da moeda de destino
-
-  // Valores de câmbio em relação ao Real Brasileiro
-  const exchangeRates = {
-    "R$ Real Brasileiro": 1,           // 1 real = 1 real
-    "US$ Dólar Americano": 5.0,        // 1 dólar = 5 reais
-    "€ Euro": 5.5,                     // 1 euro = 5,50 reais
-    "£ Libra Esterlina": 6.0,          // 1 libra = 6 reais
-    "₿ Bitcoin": 140000.0              // 1 bitcoin = 140.000 reais
-  };
-
-  // Caminhos das imagens de cada moeda
+  // Caminhos das imagens
   const currencyImages = {
     "R$ Real Brasileiro": "./assets/brasil 2.png",
     "US$ Dólar Americano": "./assets/estados-unidos (1) 1.png",
@@ -33,13 +19,33 @@ document.addEventListener("DOMContentLoaded", () => {
     "₿ Bitcoin": "./assets/bitcoin 1.png"
   };
 
-  // Função que realiza a conversão
-  function convertCurrency() {
+  // Mapeamento para código da moeda (ISO) usado na API
+  const currencyCodes = {
+    "R$ Real Brasileiro": "BRL",
+    "US$ Dólar Americano": "USD",
+    "€ Euro": "EUR",
+    "£ Libra Esterlina": "GBP",
+    "₿ Bitcoin": "BTC"
+  };
 
-    // Pega o valor digitado, substitui vírgula por ponto e converte para número
+  // Função para buscar cotação da API
+  async function getRate(fromCurrency, toCurrency) {
+    if (fromCurrency === toCurrency) return 1;
+
+    const fromCode = currencyCodes[fromCurrency];
+    const toCode = currencyCodes[toCurrency];
+
+    const url = `https://economia.awesomeapi.com.br/json/last/${fromCode}-${toCode}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    // O objeto vem como {USDBRL: {...}} por exemplo
+    const pair = Object.keys(data)[0];
+    return parseFloat(data[pair].bid);
+  }
+
+  async function convertCurrency() {
     let amount = parseFloat(inputCurrency.value.replace(",", "."));
-
-    // Se não for um número válido, limpa a tela e sai da função
     if (isNaN(amount)) {
       currencyValueToConvert.textContent = "";
       currencyValueConverted.textContent = "";
@@ -47,46 +53,33 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Pega a moeda de origem e destino selecionadas
     const fromCurrency = fromSelect.value;
     const toCurrency = toSelect.value;
 
-    // Converte para reais primeiro
-    const valueInReal = amount * exchangeRates[fromCurrency];
+    // Cotação
+    const rate = await getRate(fromCurrency, toCurrency);
+    const convertedValue = amount * rate;
 
-    // Depois converte de reais para a moeda de destino
-    const convertedValue = valueInReal / exchangeRates[toCurrency];
+    // Mostra valores
+    currencyValueToConvert.textContent = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: currencyCodes[fromCurrency]
+    }).format(amount);
 
-    // Mostra o valor original formatado
-    currencyValueToConvert.textContent = `${fromCurrency} ${amount.toFixed(2)}`;
+    currencyValueConverted.textContent = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: currencyCodes[toCurrency]
+    }).format(convertedValue);
 
-    // Define o símbolo da moeda de destino
-    let symbol = "";
-    switch (toCurrency) {
-      case "US$ Dólar Americano": symbol = "US$"; break;
-      case "€ Euro": symbol = "€"; break;
-      case "£ Libra Esterlina": symbol = "£"; break;
-      case "₿ Bitcoin": symbol = "₿"; break;
-      default: symbol = "R$"; // Caso seja real
-    }
-
-    // Mostra o valor convertido e o nome da moeda de destino
-    currencyValueConverted.textContent = `${symbol} ${convertedValue.toFixed(2)}`;
     currencyName.textContent = toCurrency;
 
-    // Atualiza as imagens das moedas
+    // Atualiza imagens
     fromImg.src = currencyImages[fromCurrency];
     toImg.src = currencyImages[toCurrency];
   }
 
-  // Dispara a conversão automaticamente quando:
-  // - O usuário digita no campo
-  // - Ou muda a moeda de origem
-  // - Ou muda a moeda de destino
+  // Eventos
   inputCurrency.addEventListener("input", convertCurrency);
   fromSelect.addEventListener("change", convertCurrency);
   toSelect.addEventListener("change", convertCurrency);
-
-}); // Fim do DOMContentLoaded
-// Fim do script.js
-// Este script realiza a conversão de moedas com base em valores fixos
+});
